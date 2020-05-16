@@ -1,0 +1,6 @@
+module Pods_rnmovie_rnmovieTests {
+  umbrella header "Pods-rnmovie-rnmovieTests-umbrella.h"
+
+  export *
+  module * { export * }
+}
