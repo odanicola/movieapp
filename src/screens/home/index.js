@@ -5,12 +5,13 @@ import { library } from '@fortawesome/fontawesome-svg-core'
 import { fab } from '@fortawesome/free-brands-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 import { faSearch, faCaretRight, faHome, faTheaterMasks, faTicketAlt } from '@fortawesome/free-solid-svg-icons'
-import { loadMoviesNowPlaying, loadMoviesTopRated, loadMoviesBanner } from '../../actions'
+import { loadMoviesNowPlaying, loadMoviesTopRated, loadMoviesBanner, loadMoviesUpComing } from '../../actions'
 import { Text, Footer, FooterTab, Button, Content, Container } from 'native-base'
 import GLOBAL from '../../utils/constants' 
 import {BannerSlider} from './components/bannerSlider'
 import {MovieNowPlayingCard} from './components/movieNowPlayingCard'
 import {MovieTopRatedCard} from './components/movieTopRatedCard'
+import {MovieUpComingCard} from './components/movieUpComingCard'
  
 library.add(faSearch, faCaretRight, faHome, faTheaterMasks, faTicketAlt)
 
@@ -24,7 +25,7 @@ class Home extends Component {
     }
 
     render() {
-        const {movies_banner, movies_now_playing, movies_top_rated} = this.props
+        const {movies_banner, movies_now_playing, movies_top_rated, movies_upcoming} = this.props
         return (
             <Container>
                 <StatusBar barStyle="dark-content" backgroundColor="white"/>
@@ -48,14 +49,14 @@ class Home extends Component {
                                 Now Playing
                             </Text>
                             <View style={{flexDirection: 'row', justifyContent: 'center', alignItems: 'center'}}>
-                                <Text style={{fontSize: 18,color: "#0C0846",alignSelf: 'flex-end'}}>
+                                <Text style={{fontSize: 18, color: "#0C0846",alignSelf: 'flex-end'}}>
                                     More 
                                 </Text>
-                                <FontAwesomeIcon icon="caret-right" style={{alignSelf:  'center'}}/>
+                                <FontAwesomeIcon icon="caret-right" style={{color: "#0C0846", alignSelf:  'center'}}/>
                             </View>
                         </View>
                         <View>
-                            <MovieNowPlayingCard movies={movies_now_playing} />
+                            <MovieNowPlayingCard movies={movies_now_playing} navigation={this.props.navigation}/>
                         </View>
                     </View>
                     <View style={{marginTop: 5,marginBottom: 5}}>
@@ -73,6 +74,22 @@ class Home extends Component {
                         </View>
                         <View>
                             <MovieTopRatedCard movies={movies_top_rated} />
+                        </View>
+                    </View>
+                    <View style={{ marginTop: 5, marginBottom: 5}}>
+                        <View style={{ flexDirection: 'row', paddingLeft: 20, paddingRight: 20, justifyContent: 'center', alignItems: 'center'}}>
+                            <Text style={{ fontSize: 22, color: "#0C0846", fontWeight: "bold", flex: 1, alignSelf: 'flex-start'}}>
+                                Upcoming
+                            </Text>
+                            <View style={{flexDirection: 'row', justifyContent: 'center', alignItems: 'center'}}>
+                                <Text style={{fontSize: 18,color: "#0C0846",alignSelf: 'flex-end'}}>
+                                    More 
+                                </Text>
+                                <FontAwesomeIcon icon="caret-right" style={{alignSelf:  'center'}}/>
+                            </View>
+                        </View>
+                        <View>
+                            <MovieNowPlayingCard movies={movies_upcoming} />
                         </View>
                     </View>
                 </Content>
@@ -99,19 +116,21 @@ class Home extends Component {
 
 
 const mapStateToProps = (state) => {
-    const { moviesNowPlayingReducer,  moviesTopRatedReducer, moviesBannerReducer } = state
+    const { moviesNowPlayingReducer,  moviesTopRatedReducer, moviesBannerReducer, moviesUpComingReducer } = state
     return {
         movies_now_playing: moviesNowPlayingReducer.movies_now_playing,
         movies_top_rated: moviesTopRatedReducer.movies_top_rated,
         movies_banner: moviesBannerReducer.movies_banner,
+        movies_upcoming: moviesUpComingReducer.movies_upcoming
     }
 }
 
 const mapDispatchToProps = dispatch => ({
     loadElement: () => {
+        dispatch(loadMoviesBanner())
         dispatch(loadMoviesNowPlaying())
         dispatch(loadMoviesTopRated())
-        dispatch(loadMoviesBanner())
+        dispatch(loadMoviesUpComing())
     }
 });
 

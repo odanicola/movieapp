@@ -6,21 +6,19 @@ import { faStar } from '@fortawesome/free-solid-svg-icons'
 import { library } from '@fortawesome/fontawesome-svg-core'
 library.add(faStar)
 
-class MovieNowPlayingCard extends React.Component {
+class MovieUpComingCard extends React.Component {
     constructor(props) {
         super(props)
     }
 
     _renderMovieCard = (movies) => {
-        const { navigation } = this.props
+        
         const moviesCard = []
         
         movies.map(item => {
             moviesCard.push(
                 <Card transparent key={item.id}>
-                    <CardItem style={{width: 180, backgroundColor: 'none'}} button onPress={() => {
-                        navigation.navigate('MovieDetail',{id:item.id, name:item.name})
-                    }}>
+                    <CardItem style={{width: 180, backgroundColor: 'none'}}>
                         <Body>
                             <Image
                                 style={{width:150, height: 221, borderRadius: 10}}
@@ -78,4 +76,4 @@ class MovieNowPlayingCard extends React.Component {
     }
 }
 
-export {MovieNowPlayingCard}
+export {MovieUpComingCard}
